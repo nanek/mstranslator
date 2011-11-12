@@ -1,10 +1,11 @@
 {
   "author": "Kenan Shifflett <kenan.shifflett@gmail.com>",
   "name": "mstranslator",
-  "description": "Wrapper for the Microsoft Translator API v2",
+  "description": "Microsoft Translator API module for node.js",
   "version": "0.0.1",
   "repository": {
-    "url": ""
+    "type": "git",
+    "url": "git://github.com/nanek/mstranslator.git"
   },
   "main": "mstranslator.js",
   "scripts": {
