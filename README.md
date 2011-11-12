@@ -1,9 +1,11 @@
 # Microsoft Translator API module for node.js
-[Microsoft Translator Documentation](http://msdn.microsoft.com/en-us/library/dd576287.aspx)
+
+  [Microsoft Translator Documentation](http://msdn.microsoft.com/en-us/library/dd576287.aspx)
 
 ## Methods
-[Microsoft Translator API
-Reference](http://msdn.microsoft.com/en-us/library/ff512404.aspx)
+
+  [Microsoft Translator API Reference](http://msdn.microsoft.com/en-us/library/ff512404.aspx)
+
   * addTranslation (not implemented)
   * addTranslationArray (not implemented)
   * breakSentences (not working)
@@ -21,6 +23,7 @@ Reference](http://msdn.microsoft.com/en-us/library/ff512404.aspx)
   * translateArray
 
 ## Installation
+
     $ npm install mstranslator
 
 You will also need to register to get an client_id and client_secret to
@@ -31,7 +34,8 @@ Specify these values as environment variables.
     MSCLIENT_SECRET=''
 
 ## Example Usage
-    var tanslator = require('mstranslator')
+
+    var tanslator = require('mstranslator');
 
     var params = { 
       text: 'How\'s it going?'
@@ -46,4 +50,5 @@ Specify these values as environment variables.
     });
 
 ## Tests
+
     expresso
