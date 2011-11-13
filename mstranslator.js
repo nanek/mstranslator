@@ -23,6 +23,22 @@ var query = {
   scope: 'http://api.microsofttranslator.com'
 };
 
+function printArray(arr)
+{
+  var arrval = arr.join('","');
+  return '["' + arrval + '"]';
+}
+
+function convertArrays(obj)
+{
+  for (var prop in obj) {
+    if (Array.isArray(obj[prop])) {
+      obj[prop] = printArray(obj[prop]);
+    }
+  }
+  return obj;
+}
+
 exports.access_token = function(client_id, client_secret, fn) {
   var req = https.request(options, function(res) {
     res.setEncoding('utf8');
@@ -42,6 +58,7 @@ exports.access_token = function(client_id, client_secret, fn) {
 var call = function(path, params, access_token, fn) {
   var settings = mstrans;
   settings.headers.Authorization = 'Bearer ' + access_token;
+  params = convertArrays(params);
   settings.path= ajax_root + path + '?' + querystring.stringify(params);
   var req = http.request(settings, function(res) {
     res.setEncoding('utf8');
@@ -57,6 +74,7 @@ var call = function(path, params, access_token, fn) {
 var call_speak = function(path, params, access_token, fn) {
   var settings = mstrans;
   settings.headers.Authorization = 'Bearer ' + access_token;
+  params = convertArrays(params);
   settings.path= http_root + path + '?' + querystring.stringify(params);
   var req = http.request(settings, function(res) {
     //res.setEncoding('utf8');

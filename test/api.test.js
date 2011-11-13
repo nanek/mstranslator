@@ -74,6 +74,7 @@ exports['test speak'] = function(beforeExit, assert) {
   var params = { text: 'Muchas gracias.', language: 'es', format: 'audio/wav' };
   translator.access_token(client_id, client_secret, function(err, access_token) {
     translator.speak(params, access_token, function(err, data) {
+      //TODO: add valid test
       assert.type(data, 'object');
     });
   });
@@ -81,17 +82,18 @@ exports['test speak'] = function(beforeExit, assert) {
 exports['test translate'] = function(beforeExit, assert) {
   var params = { text: 'translate this.', from: 'en', to: 'es' };
   translator.access_token(client_id, client_secret, function(err, access_token) {
-    translator.speak(params, access_token, function(err, data) {
-      assert.type(data, 'object');
+    translator.translate(params, access_token, function(err, data) {
+      assert.equal(data, 'traducir esto.');
     });
   });
 }
 exports['test translateArray'] = function(beforeExit, assert) {
-  var texts = "[\"monkey\", \"cow\"]";//['monkey', 'cow'];
-  var params = { texts: texts , from: 'en', to: 'en' };
+  var texts = ['monkey', 'cow'];
+  var params = { texts: texts , from: 'en', to: 'es', maxTranslations:5 };
   translator.access_token(client_id, client_secret, function(err, access_token) {
     translator.translateArray(params, access_token, function(err, data) {
-      assert.type(data, 'object');
+      assert.equal(data[0].TranslatedText, 'mono');
+      assert.equal(data[1].TranslatedText, 'vaca');
     });
   });
 }
