@@ -62,10 +62,18 @@ var call = function(path, params, access_token, fn) {
   settings.path= ajax_root + path + '?' + querystring.stringify(params);
   var req = http.request(settings, function(res) {
     res.setEncoding('utf8');
+    var body = '';
     res.on('data', function (chunk) {
+      body += chunk;
+    });
+    res.on('end', function () {
       //remove invalid BOM
-      chunk = chunk.substring(1, chunk.length);
-      fn(null, JSON.parse(chunk));
+      body = body.substring(1, body.length);
+      try {
+        fn(null, JSON.parse(body));
+      } catch (e) {
+        fn(e, null);
+      }
     });
   });
   req.end();
@@ -78,8 +86,12 @@ var call_speak = function(path, params, access_token, fn) {
   settings.path= http_root + path + '?' + querystring.stringify(params);
   var req = http.request(settings, function(res) {
     //res.setEncoding('utf8');
+    var body;
     res.on('data', function (chunk) {
-      fn(null, chunk);
+      body += chunk;
+    });
+    res.on('end', function () {
+      fn(null, body);
     });
   });
   req.end();

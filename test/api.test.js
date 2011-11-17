@@ -8,18 +8,6 @@ if (!client_id || !client_secret) {
   process.exit(1);
 }
 
-exports['test translate'] = function(beforeExit, assert) {
-  var params = {
-    text: 'monkey'
-    , from: 'en'
-    , to: 'es'
-  }
-  translator.access_token(client_id, client_secret, function(err, access_token) {
-    translator.translate(params, access_token, function(err, data) {
-      assert.equal(data, 'mono');
-    });
-  });
-}
 /*
 exports['test breakSentences'] = function(beforeExit, assert) {
   var text = encodeURIComponent("This is one sentence. The method will count this as the second sentences. Finally, the third sentence.");
@@ -70,6 +58,7 @@ exports['test getLanguagesForTranslate'] = function(beforeExit, assert) {
     });
   });
 }
+/*
 exports['test speak'] = function(beforeExit, assert) {
   var params = { text: 'Muchas gracias.', language: 'es', format: 'audio/wav' };
   translator.access_token(client_id, client_secret, function(err, access_token) {
@@ -78,7 +67,7 @@ exports['test speak'] = function(beforeExit, assert) {
       assert.type(data, 'object');
     });
   });
-}
+}*/
 exports['test translate'] = function(beforeExit, assert) {
   var params = { text: 'translate this.', from: 'en', to: 'es' };
   translator.access_token(client_id, client_secret, function(err, access_token) {
