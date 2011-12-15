@@ -15,7 +15,10 @@ var params = {
 };
 
 translator.access_token(client_id, client_secret, function(err, access_token) {
-  translator.translate(params, access_token, function(err, data) {
+  translator.getLanguagesForSpeak(access_token, function(err, data) {
+    console.log(data);
+  });
+  translator.getLanguagesForTranslate(access_token, function(err, data) {
     console.log(data);
   });
 });
