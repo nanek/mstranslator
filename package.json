@@ -1,8 +1,11 @@
 {
   "author": "Kenan Shifflett <kenan.shifflett@gmail.com>",
+  "contributors": [
+    "Peng Zuo <> (https://github.com/nan1nan1)"
+  ],
   "name": "mstranslator",
   "description": "Microsoft Translator API module for node.js",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "repository": {
     "type": "git",
     "url": "git://github.com/nanek/mstranslator.git"
