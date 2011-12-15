@@ -14,11 +14,6 @@ var params = {
   , to: 'es'
 };
 
-translator.access_token(client_id, client_secret, function(err, access_token) {
-  translator.getLanguagesForSpeak(access_token, function(err, data) {
-    console.log(data);
-  });
-  translator.getLanguagesForTranslate(access_token, function(err, data) {
 var client = new MsTranslator({client_id: client_id, client_secret: client_secret});
 
 client.initialize_token(function(){
