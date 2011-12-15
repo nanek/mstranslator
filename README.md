@@ -26,28 +26,30 @@
 
     $ npm install mstranslator
 
+    
+or just download it and put it in your project's node_module directory.
+
 You will also need to register to get an client_id and client_secret to
 create access tokens. Details at http://msdn.microsoft.com/en-us/library/hh454950.aspx
-Specify these values as environment variables.
-
-    MSCLIENT_ID=''
-    MSCLIENT_SECRET=''
 
 ## Example Usage
 
-    var tanslator = require('mstranslator');
-
+    var MsTanslator = require('mstranslator');
+    var client = new MsTranslator({client_id:"your client_id", client_secret: "your client secret"});
     var params = { 
       text: 'How\'s it going?'
       , from: 'en'
       , to: 'es'
     };
-
-    translator.access_token('your_client_id', 'your_client_secret', function(err, access_token) {
-      translator.translate(params, access_token, function(err, data) {
-        console.log(data);
+    
+    client.initialize_token(function(keys){ 
+      console.log(keys.access_token);
+      client.translate(params, function(err, data) {
+          console.log(data);
       });
     });
+    
+
 
 ## Tests
 

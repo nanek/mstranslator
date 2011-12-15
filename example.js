@@ -1,4 +1,4 @@
-var translator = require('./mstranslator');
+var MsTranslator = require('./mstranslator');
 
 var client_secret=process.env.MSCLIENT_SECRET;
 var client_id=process.env.MSCLIENT_ID;
@@ -19,7 +19,10 @@ translator.access_token(client_id, client_secret, function(err, access_token) {
     console.log(data);
   });
   translator.getLanguagesForTranslate(access_token, function(err, data) {
+var client = new MsTranslator({client_id: client_id, client_secret: client_secret});
+
+client.initialize_token(function(){
+  client.translate(params, function(err, data) {
     console.log(data);
   });
 });
-
