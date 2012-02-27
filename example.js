@@ -20,4 +20,14 @@ client.initialize_token(function(){
   client.translate(params, function(err, data) {
     console.log(data);
   });
+  client.getLanguagesForTranslate(function(err, data) {
+    console.log(data);
+    var options = {
+      locale: 'en',
+      languageCodes: data
+    };
+    client.getLanguageNames(options, function(err, data) {
+      console.log(data);
+    });
+  });
 });
