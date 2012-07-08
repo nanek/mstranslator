@@ -34,7 +34,7 @@ create access tokens. Details at http://msdn.microsoft.com/en-us/library/hh45495
 
 ## Example Usage
 
-    var MsTanslator = require('mstranslator');
+    var MsTranslator = require('mstranslator');
     var client = new MsTranslator({client_id:"your client_id", client_secret: "your client secret"});
     var params = { 
       text: 'How\'s it going?'
