@@ -18,15 +18,18 @@ var client = new MsTranslator({client_id: client_id, client_secret: client_secre
 
 client.initialize_token(function(){
   client.translate(params, function(err, data) {
+    if (err) console.log('error:' + err);
     console.log(data);
   });
   client.getLanguagesForTranslate(function(err, data) {
+    if (err) console.log('error:' + err);
     console.log(data);
     var options = {
       locale: 'en',
       languageCodes: data
     };
     client.getLanguageNames(options, function(err, data) {
+      if (err) console.log('error:' + err);
       console.log(data);
     });
   });
