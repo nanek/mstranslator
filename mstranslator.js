@@ -53,8 +53,12 @@ MsTranslator.prototype.initialize_token = function(callback){
   var self = this;
   var req = https.request(self.options, function(res) {
     res.setEncoding('utf8');
+    var data = '';
     res.on('data', function (chunk) {
-      var keys = JSON.parse(chunk);
+      data += chunk;
+    });
+    res.on('end', function () {
+      var keys = JSON.parse(data);
       self.access_token = keys.access_token;
       self.expires_in = (parseInt(keys.expires_in) - 10) * 1000;
       setTimeout(function() {self.initialize_token()}, self.expires_in);
