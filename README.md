@@ -54,3 +54,8 @@ create access tokens. Details at http://msdn.microsoft.com/en-us/library/hh45495
 ## Tests
 
     expresso
+
+    
+## License
+
+Licensed under the [MIT license](LICENSE-MIT).
