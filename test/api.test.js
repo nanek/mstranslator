@@ -10,19 +10,16 @@ if (!client_id || !client_secret) {
 
 var translator = new MsTranslator({client_id: client_id, client_secret: client_secret});
 
-
-// Test framework offers assert.
-var assert = require('assert');
-
-
-// Each before in the root, thus only once for all tests
 beforeEach(function(done){
+  // Token is valid for 10 minutes, so do it only once.
   translator.initialize_token(function(){
     done();
   });
 });
 
 describe('MsTranslator', function() {
+  // http://nodejs.org/api/assert.html
+  var assert = require('assert');
   
   /*
   it('test breakSentences', function() {
@@ -47,7 +44,7 @@ describe('MsTranslator', function() {
     var texts = "[\"This is English text.\", \"Das ist deutsche Text.\", \"Questo un testo italiano.\"]";
     var params = { texts: texts };
     translator.detectArray(params, function(err, data) {
-      assert.eql(data, ['en', 'de', 'it']);
+      assert.deepEqual(data, ['en', 'de', 'it']);
       done();
     });
   });
@@ -56,21 +53,21 @@ describe('MsTranslator', function() {
     var languageCodes = "[\"de\", \"fr\", \"it\"]";
     var params = { locale: 'en', languageCodes: languageCodes };
     translator.getLanguageNames(params, function(err, data) {
-      assert.eql(data, ['German', 'French', 'Italian']);
+      assert.deepEqual(data, ['German', 'French', 'Italian']);
       done();
     });
   });
 
   it('tests getLanguagesForSpeak', function(done) {
     translator.getLanguagesForSpeak(function(err, data) {
-      assert.type(data, 'object');
+      assert.equal(typeof data, 'object');
       done();
     });
   });
 
   it('tests getLanguagesForTranslate', function(done) {
     translator.getLanguagesForTranslate(function(err, data) {
-      assert.type(data, 'object');
+      assert.equal(typeof data, 'object');
       done();
     });
   });
@@ -79,7 +76,7 @@ describe('MsTranslator', function() {
   it('tests speak', function(done) {
     var params = { text: 'Muchas gracias.', language: 'es', format: 'audio/wav' };
     translator.speak(params, function(err, data) {
-      assert.type(data, 'object');
+      assert.equal(typeof data, 'object');
       done();
     });
   });
