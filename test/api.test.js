@@ -99,4 +99,16 @@ describe('MsTranslator', function() {
     });
   });
 
+  it('tests translateArray2', function(done) {
+    var texts = ['monkey', 'cow'];
+    var params = { texts: texts , from: 'en', to: 'es', maxTranslations:5 };
+    translator.translateArray2(params, function(err, data) {
+      assert.equal(data[0].TranslatedText, 'mono');
+      assert.equal(data[0].Alignment , '0:5-0:3');
+      assert.equal(data[1].TranslatedText, 'vaca');
+      assert.equal(data[1].Alignment , '0:2-0:3');
+      done();
+    });
+  });
+
 });
