@@ -63,7 +63,7 @@ MsTranslator.prototype.initialize_token = function(callback){
       self.expires_in = (parseInt(keys.expires_in) - 10) * 1000;
       setTimeout(function() {self.initialize_token()}, self.expires_in);
       if(callback != undefined) {
-        callback(keys);
+        callback(null,keys);
       }
     });
   });
