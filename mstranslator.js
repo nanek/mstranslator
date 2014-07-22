@@ -63,7 +63,7 @@ MsTranslator.prototype.initialize_token = function(callback){
       self.expires_in = (parseInt(keys.expires_in) - 10) * 1000;
       setTimeout(function() {self.initialize_token()}, self.expires_in);
       if(callback != undefined) {
-        callback(keys);
+        callback(null,keys);
       }
     });
   });
@@ -193,7 +193,14 @@ MsTranslator.prototype.translate = function(params, fn) {
 };
 
 // TranslateArray Method
-// params { textss, from, to, options }
+// params { texts, from, to, options }
 MsTranslator.prototype.translateArray = function(params, fn) {
   this.call('TranslateArray', params, fn);
+};
+
+// TranslateArray2 Method
+// params { texts, from, to, options }
+// http://msdn.microsoft.com/en-us/library/dn198370.aspx
+MsTranslator.prototype.translateArray2 = function(params, fn) {
+  this.call('TranslateArray2', params, fn);
 };

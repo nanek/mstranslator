@@ -21,6 +21,7 @@
   * speak
   * translate
   * translateArray
+  * translateArray2
 
 ## Installation
 
