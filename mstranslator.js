@@ -49,7 +49,7 @@ MsTranslator.prototype.convertArrays = function(obj)
   return obj;
 }
 
-MsTranslator.prototype.initialize_token = function(callback){
+MsTranslator.prototype.initialize_token = function(callback, noRefresh){
   var self = this;
   var req = https.request(self.options, function(res) {
     res.setEncoding('utf8');
@@ -61,7 +61,10 @@ MsTranslator.prototype.initialize_token = function(callback){
       var keys = JSON.parse(data);
       self.access_token = keys.access_token;
       self.expires_in = (parseInt(keys.expires_in) - 10) * 1000;
-      setTimeout(function() {self.initialize_token()}, self.expires_in);
+      if (!noRefresh) {
+        // Auto refresh token.
+        setTimeout(function() {self.initialize_token()}, self.expires_in);
+      }
       if(callback != undefined) {
         callback(null,keys);
       }
