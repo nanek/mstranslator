@@ -43,6 +43,15 @@ create access tokens. Details at http://msdn.microsoft.com/en-us/library/hh45495
       , to: 'es'
     };
     
+    // Method 1. (simple)
+    // Using the auto option to generate token only if needed.
+    client.translate(params, function(err, data) {
+          console.log(data);
+    }, true); // last parameter(true) represents the auto option
+    
+    
+    // Method 2.
+    // Using initialize_token manually.
     client.initialize_token(function(keys){ 
       console.log(keys.access_token);
       client.translate(params, function(err, data) {
