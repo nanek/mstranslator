@@ -5,7 +5,7 @@ var https = require('https');
 function MsTranslator(credentials){
   this.credentials = credentials;
   this.access_token = "";
-  this.expired_in = null;
+  this.expires_in = null;
   
   this.options = {
     host: 'datamarket.accesscontrol.windows.net',
