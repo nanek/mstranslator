@@ -38,7 +38,7 @@ create access tokens. Details at http://msdn.microsoft.com/en-us/library/hh45495
 ```js
     var MsTranslator = require('mstranslator');
     // Second parameter to constructor (true) indicates that 
-    // the token should be auto-generated only if needed.
+    // the token should be auto-generated.
     var client = new MsTranslator({
       client_id: "your client_id"
       , client_secret: "your client secret"
@@ -50,7 +50,7 @@ create access tokens. Details at http://msdn.microsoft.com/en-us/library/hh45495
       , to: 'es'
     };
     
-
+    // Don't worry about access token, it will be auto-generated if needed.
     client.translate(params, function(err, data) {
           console.log(data);
     });
