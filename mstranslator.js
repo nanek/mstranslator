@@ -2,11 +2,12 @@ var querystring = require('querystring');
 var http = require('http');
 var https = require('https');
 
-function MsTranslator(credentials){
+function MsTranslator(credentials, autoRefresh){
   this.credentials = credentials;
   this.access_token = "";
   this.expires_in = null;
   this.expires_at = 0;
+  this.autoRefresh = autoRefresh;
   
   this.options = {
     host: 'datamarket.accesscontrol.windows.net',
@@ -48,6 +49,19 @@ MsTranslator.prototype.convertArrays = function(obj)
     }
   }
   return obj;
+}
+
+MsTranslator.prototype.makeRequest = function(path, params, fn, method) {
+  method = method || 'call';
+  if (this.autoRefresh && this.expires_at <= Date.now()) {
+    var self = this;
+    this.initialize_token(function() {
+      self[method](path, params, fn);
+    }, true);
+  }
+  else {
+    this[method](path, params, fn);
+  }
 }
 
 MsTranslator.prototype.initialize_token = function(callback, noRefresh){
@@ -106,7 +120,7 @@ MsTranslator.prototype.call = function(path, params, fn) {
   req.end();
 };
 
-MsTranslator.prototype.call_speak = function(path, params,  fn) {
+MsTranslator.prototype.call_speak = function(path, params, fn) {
   var settings = this.mstrans;
   settings.headers.Authorization = 'Bearer ' + this.access_token;
   params = this.convertArrays(params);
@@ -138,169 +152,73 @@ MsTranslator.prototype.call_speak = function(path, params,  fn) {
 
 // BreakSentences Method
 // params { text, language }
-MsTranslator.prototype.breakSentences = function(params, fn, auto) {
-  if (auto && this.expires_at <= Date.now()) {
-    var self = this;
-    this.initialize_token(function() {
-      self.call('BreakSentences', params, fn);
-    }, true);
-  }
-  else {
-    this.call('BreakSentences', params, fn);
-  }
+MsTranslator.prototype.breakSentences = function(params, fn) {
+  this.makeRequest('BreakSentences', params, fn);
 };
 
 // Detect Method
 // params { text }
-MsTranslator.prototype.detect = function(params, fn, auto) {
-  if (auto && this.expires_at <= Date.now()) {
-    var self = this;
-    this.initialize_token(function() {
-      self.call('Detect', params, fn);
-    }, true);
-  }
-  else {
-    this.call('Detect', params, fn);
-  }
+MsTranslator.prototype.detect = function(params, fn) {
+  this.makeRequest('Detect', params, fn);
 };
 
 // DetectArray Method
 // params { texts }
-MsTranslator.prototype.detectArray = function(params, fn, auto) {
-  if (auto && this.expires_at <= Date.now()) {
-    var self = this;
-    this.initialize_token(function() {
-      self.call('DetectArray', params, fn);
-    }, true);
-  }
-  else {
-    this.call('DetectArray', params, fn);
-  }
+MsTranslator.prototype.detectArray = function(params, fn) {
+  this.makeRequest('DetectArray', params, fn);
 };
 
 // GetLanguageNames Method
 // params { locale, languageCodes }
-MsTranslator.prototype.getLanguageNames = function(params, fn, auto) {
-  if (auto && this.expires_at <= Date.now()) {
-    var self = this;
-    this.initialize_token(function() {
-      self.call('GetLanguageNames', params, fn);
-    }, true);
-  }
-  else {
-    this.call('GetLanguageNames', params, fn);
-  }
+MsTranslator.prototype.getLanguageNames = function(params, fn) {
+  this.makeRequest('GetLanguageNames', params, fn);
 };
 
 // GetLanguagesForSpeak Method
 // params { }
-MsTranslator.prototype.getLanguagesForSpeak = function(fn, auto) {
-  if (auto && this.expires_at <= Date.now()) {
-    var self = this;
-    this.initialize_token(function() {
-      self.call('GetLanguagesForSpeak', {}, fn);
-    }, true);
-  }
-  else {
-    this.call('GetLanguagesForSpeak', {}, fn);
-  }
+MsTranslator.prototype.getLanguagesForSpeak = function(fn) {
+  this.makeRequest('GetLanguagesForSpeak', {}, fn);
 };
 
 // GetLanguagesForTranslate Method
 // params { }
-MsTranslator.prototype.getLanguagesForTranslate = function(fn, auto) {
-  if (auto && this.expires_at <= Date.now()) {
-    var self = this;
-    this.initialize_token(function() {
-      self.call('GetLanguagesForTranslate', {}, fn);
-    }, true);
-  }
-  else {
-    this.call('GetLanguagesForTranslate', {}, fn);
-  }
+MsTranslator.prototype.getLanguagesForTranslate = function(fn) {
+  this.makeRequest('GetLanguagesForTranslate', {}, fn);
 };
 
 // GetTranslations Method
 // params { text, from, to, maxTranslations, options }
-MsTranslator.prototype.getTranslations = function(params, fn, auto) {
-  if (auto && this.expires_at <= Date.now()) {
-    var self = this;
-    this.initialize_token(function() {
-      self.call('GetTranslations', params, fn);
-    }, true);
-  }
-  else {
-    this.call('GetTranslations', params, fn);
-  }
+MsTranslator.prototype.getTranslations = function(params, fn) {
+  this.makeRequest('GetTranslations', params, fn);
 };
 
 // GetTranslationsArray Method
 // params { text, from, to, maxTranslations, options }
-MsTranslator.prototype.getTranslationsArray = function(params, fn, auto) {
-  if (auto && this.expires_at <= Date.now()) {
-    var self = this;
-    this.initialize_token(function() {
-      self.call('GetTranslationsArray', params, fn);
-    }, true);
-  }
-  else {
-    this.call('GetTranslationsArray', params, fn);
-  }
+MsTranslator.prototype.getTranslationsArray = function(params, fn) {
+  this.makeRequest('GetTranslationsArray', params, fn);
 };
 
 // Speak Method
 // params { text, language, format }
-MsTranslator.prototype.speak = function(params, fn, auto) {
-  if (auto && this.expires_at <= Date.now()) {
-    var self = this;
-    this.initialize_token(function() {
-      self.call_speak('Speak', params, fn);
-    }, true);
-  }
-  else {
-    this.call_speak('Speak', params, fn);
-  }
+MsTranslator.prototype.speak = function(params, fn) {
+  this.makeRequest('Speak', params, fn, 'call_speak');
 };
 
 // Translate Method
 // params { text, from, to, contentType, category }
-MsTranslator.prototype.translate = function(params, fn, auto) {
-  if (auto && this.expires_at <= Date.now()) {
-    var self = this;
-    this.initialize_token(function() {
-      self.call('Translate', params, fn);
-    }, true);
-  }
-  else {
-    this.call('Translate', params, fn);
-  }
+MsTranslator.prototype.translate = function(params, fn) {
+  this.makeRequest('Translate', params, fn);
 };
 
 // TranslateArray Method
 // params { texts, from, to, options }
-MsTranslator.prototype.translateArray = function(params, fn, auto) {
-  if (auto && this.expires_at <= Date.now()) {
-    var self = this;
-    this.initialize_token(function() {
-      self.call('TranslateArray', params, fn);
-    }, true);
-  }
-  else {
-    this.call('TranslateArray', params, fn);
-  }
+MsTranslator.prototype.translateArray = function(params, fn) {
+  this.makeRequest('TranslateArray', params, fn);
 };
 
 // TranslateArray2 Method
 // params { texts, from, to, options }
 // http://msdn.microsoft.com/en-us/library/dn198370.aspx
-MsTranslator.prototype.translateArray2 = function(params, fn, auto) {
-  if (auto && this.expires_at <= Date.now()) {
-    var self = this;
-    this.initialize_token(function() {
-      self.call('TranslateArray2', params, fn);
-    }, true);
-  }
-  else {
-    this.call('TranslateArray2', params, fn);
-  }
+MsTranslator.prototype.translateArray2 = function(params, fn) {
+  this.makeRequest('TranslateArray2', params, fn);
 };
