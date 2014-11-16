@@ -8,19 +8,12 @@ if (!client_id || !client_secret) {
   process.exit(1);
 }
 
-var translator = new MsTranslator({client_id: client_id, client_secret: client_secret});
-
-beforeEach(function(done){
-  // Token is valid for 10 minutes, so do it only once.
-  translator.initialize_token(function(){
-    done();
-  });
-});
+var translator = new MsTranslator({client_id: client_id, client_secret: client_secret}, true);
 
 describe('MsTranslator', function() {
   // http://nodejs.org/api/assert.html
   var assert = require('assert');
-  
+
   /*
   it('test breakSentences', function() {
     var text = encodeURIComponent("This is one sentence. The method will count this as the second sentences. Finally, the third sentence.");
