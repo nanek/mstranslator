@@ -104,4 +104,19 @@ describe('MsTranslator', function() {
     });
   });
 
+  it('handles an ArgumentOutOfRangeException', function(done) {
+    var params = {
+      text: 'whatever',
+      from: 'en',
+      to: 'easdfn'
+    };
+    translator.translate(params, function (err, data) {
+      assert.ok(
+        err.message.indexOf('ArgumentOutOfRangeException:') !== -1,
+        'An error reports the ArgumentOutOfRangeException.'
+      );
+      done();
+    });
+  });
+
 });
