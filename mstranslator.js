@@ -107,8 +107,10 @@ MsTranslator.prototype.call = function(path, params, fn) {
       //remove invalid BOM
       body = body.substring(1, body.length);
       try {
-        if (body.indexOf('ArgumentException:') === 1) {
-          fn(body, JSON.parse(body));
+        if (body.indexOf('ArgumentException:') === 1 ||
+          body.indexOf('ArgumentOutOfRangeException:') === 1) {
+
+          fn(new Error(body), JSON.parse(body));
         } else {
           fn(null, JSON.parse(body));
         }
