@@ -1,15 +1,17 @@
 var querystring = require('querystring');
 var https       = require('https');
 var soap        = require('soap');
+var soap_uri    = 'http://api.microsofttranslator.com/V2/soap.svc?wsdl';
 
 function MsTranslator(credentials, autoRefresh)
 {
+    var self = this;
+
     this.credentials  = credentials;
     this.access_token = "";
     this.expires_in   = null;
     this.expires_at   = 0;
     this.autoRefresh  = autoRefresh;
-    this.soap_uri     = 'http://api.microsofttranslator.com/V2/soap.svc?wsdl';
 
     this.tokenRequestParams = {
         host  : 'datamarket.accesscontrol.windows.net',
@@ -23,6 +25,37 @@ function MsTranslator(credentials, autoRefresh)
         client_id    : this.credentials.client_id,
         client_secret: this.credentials.client_secret
     });
+
+    var clientListeners        = [];
+    var soapClient             = null;
+    var soapClientConstructing = false;
+    this.getSoapClient = function(cb)
+    {
+        if (soapClient)
+        {
+            return cb(null, soapClient);
+        }
+        else if (soapClientConstructing)
+        {
+            return clientListeners.push(cb);
+        }
+        else
+        {
+            clientListeners.push(cb);
+
+            soapClientConstructing = true;
+            soap.createClient(soap_uri, function(err, client)
+            {
+                soapClientConstructing = false;
+                soapClient             = client;
+
+                for (var i = 0, il = clientListeners.length; i < il; i++)
+                {
+                    clientListeners[i].call(this, err, soapClient);
+                }
+            });
+        }
+    };
 }
 
 
@@ -87,11 +120,11 @@ MsTranslator.prototype.call = function(path, params, fn)
 {
     var self = this;
 
-    this.soapClient = soap.createClient(this.soap_uri, function(err, client)
+    this.getSoapClient(function(err, client)
     {
         if (err)
         {
-            return console.error(err);
+            return fn(err);
         }
 
         client.setSecurity(new soap.BearerSecurity(self.access_token));
@@ -100,12 +133,12 @@ MsTranslator.prototype.call = function(path, params, fn)
         {
             if (err)
             {
-                return console.error(err);
+                return fn(err);
             }
 
-            console.log(response);
+            return fn(null, response);
         });
-    });
+    });    
 };
 
 // Translate Method
