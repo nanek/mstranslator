@@ -129,7 +129,7 @@ MsTranslator.prototype.call = function(path, params, fn)
 
         client.setSecurity(new soap.BearerSecurity(self.access_token));
 
-        client.Translate(params, function(err, response, raw, soapHeader)
+        client[path].call(this, params, function(err, response, raw, soapHeader)
         {
             if (err)
             {

@@ -8,6 +8,8 @@
 
   * translate (maximum input length: 10240 characters)
 
+Because the library has been implemented using SOAP, it should be trivial to add new methods.
+
 ## Installation
 
     $ npm install node-mstranslate-soap
