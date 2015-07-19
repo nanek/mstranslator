@@ -25,6 +25,6 @@ var params = {
     category    : 'general'
 };
 
-translator.translateArray(params, function(err, data) {
+translator.translate(params, function(err, data) {
     console.log(data);
 });
