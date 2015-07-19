@@ -30,7 +30,7 @@
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/nanek/mstranslator/blob/master/LICENSE-MIT"
+      "url": "https://github.com/tommedema/node-mstranslate-soap/blob/master/LICENSE-MIT"
     }
   ]
 }
