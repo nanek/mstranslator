@@ -1,28 +1,30 @@
-var MsTranslator = require('./mstranslator');
+var MsTranslator  = require('./');
+var fs            = require('fs');
 
-var client_secret=process.env.MSCLIENT_SECRET;
-var client_id=process.env.MSCLIENT_ID;
+var client_id     = process.env.MSCLIENT_ID;
+var client_secret = process.env.MSCLIENT_SECRET;
 
-if (!client_secret || !client_id) {
-  console.log('client_secret and client_id missing');
-  process.exit(1);
+if (!client_id || !client_secret)
+{
+    console.log('missing client_id and client_secret');
+    process.exit(1);
 }
 
+var translator = new MsTranslator({
+                    client_id    : client_id,
+                    client_secret: client_secret
+                } , true);
+
 var params = {
-  text: 'How\'s it going?',
-  from: 'en',
-  to: 'es'
+    text        : fs.readFileSync(__dirname + '/test/input/chinese-large-html.txt', {
+                    encoding: 'utf8'
+                }),
+    from        : 'zh-CHS',
+    to          : 'en',
+    contentType : 'text/html',
+    category    : 'general'
 };
 
-var client = new MsTranslator({
-  client_id: client_id,
-  client_secret: client_secret
-});
-
-client.initialize_token(function(){
-  client.translate(params, function(err, data) {
-    if (err) console.log('error:' + err);
+translator.translateArray(params, function(err, data) {
     console.log(data);
-    process.exit();
-  });
 });
