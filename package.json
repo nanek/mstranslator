@@ -9,7 +9,7 @@
   ],
   "name": "mstranslate-soap",
   "description": "SOAP based Microsoft Translator API module for node.js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "repository": {
     "type": "git",
     "url": "git@github.com:tommedema/node-mstranslate-soap.git"
