@@ -136,7 +136,15 @@ MsTranslator.prototype.call = function(path, params, fn)
                 return fn(err);
             }
 
-            return fn(null, response);
+            for (var key in response)
+            {
+                if (response.hasOwnProperty(key) && key.indexOf('Result') !== -1)
+                {
+                    return fn(null, response[key]);
+                }
+            }
+
+            return fn(new Error('SOAP service did not return with result key in response'));
         });
     });    
 };
