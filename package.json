@@ -1,33 +1,36 @@
 {
-  "author": "Kenan Shifflett <kenan.shifflett@gmail.com>",
+  "author": "Tom Medema <tommedema@gmail.com (https://github.com/tommedema)",
   "contributors": [
+    "Kenan Shifflett <kenan.shifflett@gmail.com>",
     "Peng Zuo <> (https://github.com/nan1nan1)",
     "Juga Paazmaya <paazmaya@yahoo.com> (https://github.com/paazmaya)",
     "Ariel Jakobovits <> (https://github.com/arieljake)",
     "sorinsarca <> (https://github.com/sorinsarca)"
   ],
-  "name": "mstranslator",
-  "description": "Microsoft Translator API module for node.js",
-  "version": "2.0.0",
+  "name": "mstranslate-soap",
+  "description": "SOAP based Microsoft Translator API module for node.js",
+  "version": "1.0.1",
   "repository": {
     "type": "git",
-    "url": "git://github.com/nanek/mstranslator.git"
+    "url": "git@github.com:tommedema/node-mstranslate-soap.git"
   },
-  "main": "mstranslator.js",
+  "main": "index.js",
   "scripts": {
     "test": "mocha test/api.test.js"
   },
   "engines": {
-    "node": ">=0.4.7"
+    "node": ">=0.12.0"
   },
-  "dependencies": {},
+  "dependencies": {
+    "soap": "^0.9.1"
+  },
   "devDependencies": {
     "mocha": "~2.2.4"
   },
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/nanek/mstranslator/blob/master/LICENSE-MIT"
+      "url": "https://github.com/tommedema/node-mstranslate-soap/blob/master/LICENSE-MIT"
     }
   ]
 }
