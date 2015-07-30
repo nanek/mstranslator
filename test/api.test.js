@@ -77,7 +77,7 @@ describe('MsTranslator', function() {
   it('tests translate', function(done) {
     var params = { text: 'translate this.', from: 'en', to: 'es' };
     translator.translate(params, function(err, data) {
-      assert.equal(data, 'traducir esto.');
+      assert.equal(data.toLowerCase(), 'traducir esto.');
       done();
     });
   });

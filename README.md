@@ -4,6 +4,8 @@
 
 [![devDependency Status](https://david-dm.org/nanek/mstranslator/dev-status.svg)](https://david-dm.org/nanek/mstranslator#info=devDependencies)
 
+[SOAP version that supports translating longer strings](https://github.com/tommedema/node-mstranslate-soap)
+
 ## Methods
 
   [Microsoft Translator API Reference](http://msdn.microsoft.com/en-us/library/ff512404.aspx)
