@@ -92,6 +92,18 @@ describe('MsTranslator', function() {
     });
   });
 
+  it.only('tests translateArray for texts with quotes', function(done) {
+    var texts = ['"start"', 'single "', 'escaped \\"'];
+    var params = { texts: texts , from: 'en', to: 'es', maxTranslations:5 };
+    translator.translateArray(params, function(err, data) {
+      assert.equal(Array.isArray(data), true);
+      assert.equal(data[0].TranslatedText, '«start»');
+      assert.equal(data[1].TranslatedText, 'solo"');
+      assert.equal(data[2].TranslatedText, 'escapó"');
+      done();
+    });
+  });
+
   it('tests translateArray2', function(done) {
     var texts = ['monkey', 'cow'];
     var params = { texts: texts , from: 'en', to: 'es', maxTranslations:5 };
