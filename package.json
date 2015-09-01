@@ -4,11 +4,12 @@
     "Peng Zuo <> (https://github.com/nan1nan1)",
     "Juga Paazmaya <paazmaya@yahoo.com> (https://github.com/paazmaya)",
     "Ariel Jakobovits <> (https://github.com/arieljake)",
-    "sorinsarca <> (https://github.com/sorinsarca)"
+    "sorinsarca <> (https://github.com/sorinsarca)",
+    "Andrii Dieiev <> (https://github.com/IllusionMH)"
   ],
   "name": "mstranslator",
   "description": "Microsoft Translator API module for node.js",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "repository": {
     "type": "git",
     "url": "git://github.com/nanek/mstranslator.git"
