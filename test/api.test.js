@@ -92,7 +92,7 @@ describe('MsTranslator', function() {
     });
   });
 
-  it.only('tests translateArray for texts with quotes', function(done) {
+  it('tests translateArray for texts with quotes', function(done) {
     var texts = ['"start"', 'single "', 'escaped \\"'];
     var params = { texts: texts , from: 'en', to: 'es', maxTranslations:5 };
     translator.translateArray(params, function(err, data) {
