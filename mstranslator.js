@@ -34,10 +34,19 @@ function MsTranslator(credentials, autoRefresh){
 
 module.exports = MsTranslator;
 
+function escapeDoubleQuotes (element) {
+  if(typeof element !== 'string' ) {
+    return element
+  }
+
+  return element.replace(/(^|[^\\])"/g, '$1\\"');
+}
 
 MsTranslator.prototype.printArray = function(arr)
 {
-  var arrval = arr.join('","');
+  var arrval = arr
+      .map(escapeDoubleQuotes)
+      .join('","');
   return '["' + arrval + '"]';
 }
 
