@@ -21,7 +21,7 @@ var client = new MsTranslator({
 
 client.initialize_token(function(){
   client.translate(params, function(err, data) {
-    if (err) console.log('error:' + err);
+    if (err) console.log('error:' + err.message);
     console.log(data);
     process.exit();
   });

@@ -56,7 +56,7 @@ create access tokens. Details at http://msdn.microsoft.com/en-us/library/hh45495
 
     // Don't worry about access token, it will be auto-generated if needed.
     client.translate(params, function(err, data) {
-          console.log(data);
+      console.log(data);
     });
 ```
 
@@ -75,12 +75,11 @@ create access tokens. Details at http://msdn.microsoft.com/en-us/library/hh45495
       , to: 'es'
     };
 
-
     // Using initialize_token manually.
     client.initialize_token(function(keys){
       console.log(keys.access_token);
       client.translate(params, function(err, data) {
-          console.log(data);
+        console.log(data);
       });
     });
 ```

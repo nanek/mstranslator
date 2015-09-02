@@ -8,7 +8,7 @@ function MsTranslator(credentials, autoRefresh){
   this.expires_in = null;
   this.expires_at = 0;
   this.autoRefresh = autoRefresh;
-  
+
   this.options = {
     host: 'datamarket.accesscontrol.windows.net',
     path: '/v2/OAuth2-13',
@@ -23,7 +23,7 @@ function MsTranslator(credentials, autoRefresh){
   // use the ajax endpoint so that the responses are JSON
   this.ajax_root = '/V2/Ajax.svc/';
   this.http_root = '/V2/Http.svc/';
-  
+
   this.query = {
     grant_type: 'client_credentials',
     scope: 'http://api.microsofttranslator.com'
@@ -31,34 +31,31 @@ function MsTranslator(credentials, autoRefresh){
 
 }
 
-
 module.exports = MsTranslator;
 
 function escapeDoubleQuotes (element) {
   if(typeof element !== 'string' ) {
-    return element
+    return element;
   }
 
   return element.replace(/(^|[^\\])"/g, '$1\\"');
 }
 
-MsTranslator.prototype.printArray = function(arr)
-{
+MsTranslator.prototype.printArray = function(arr) {
   var arrval = arr
       .map(escapeDoubleQuotes)
       .join('","');
   return '["' + arrval + '"]';
-}
+};
 
-MsTranslator.prototype.convertArrays = function(obj)
-{
+MsTranslator.prototype.convertArrays = function(obj) {
   for (var prop in obj) {
     if (Array.isArray(obj[prop])) {
       obj[prop] = this.printArray(obj[prop]);
     }
   }
   return obj;
-}
+};
 
 MsTranslator.prototype.makeRequest = function(path, params, fn, method) {
   method = method || 'call';
@@ -71,7 +68,7 @@ MsTranslator.prototype.makeRequest = function(path, params, fn, method) {
   else {
     this[method](path, params, fn);
   }
-}
+};
 
 MsTranslator.prototype.initialize_token = function(callback, noRefresh){
   var self = this;
@@ -87,19 +84,20 @@ MsTranslator.prototype.initialize_token = function(callback, noRefresh){
       self.expires_in = (parseInt(keys.expires_in) - 10) * 1000;
       self.expires_at = Date.now() + self.expires_in;
       if (!noRefresh) {
-        setTimeout(function() {self.initialize_token()}, self.expires_in);
+        setTimeout(function() {self.initialize_token();}, self.expires_in);
       }
-      if(callback != undefined) {
+      if(callback !== undefined) {
         callback(null,keys);
       }
     });
   });
-  
+  req.on('error', callback);
+
   this.query.client_id = self.credentials.client_id;
   this.query.client_secret = self.credentials.client_secret;
   req.write(querystring.stringify(this.query));
   req.end();
-}
+};
 
 MsTranslator.prototype.call = function(path, params, fn) {
   var settings = this.mstrans;
@@ -128,6 +126,7 @@ MsTranslator.prototype.call = function(path, params, fn) {
       }
     });
   });
+  req.on('error', fn);
   req.end();
 };
 
@@ -137,7 +136,6 @@ MsTranslator.prototype.call_speak = function(path, params, fn) {
   params = this.convertArrays(params);
   settings.path= this.http_root + path + '?' + querystring.stringify(params);
   var req = http.request(settings, function(res) {
-    
     var buffers = [];
 
     res.on('data', function (chunk) {
@@ -146,9 +144,12 @@ MsTranslator.prototype.call_speak = function(path, params, fn) {
       }
       buffers.push(chunk);
     });
+
     res.on('end', function () {
       var index = 0;
-      var buffer_length = buffers.reduce(function(sum, e) { return sum += e.length }, 0);
+      var buffer_length = buffers.reduce(function(sum, e) {
+        return sum += e.length;
+      }, 0);
       var body = new Buffer(buffer_length);
       buffers.forEach(function (buf, i) {
         buf.copy(body, index, 0, buf.length);
@@ -158,6 +159,7 @@ MsTranslator.prototype.call_speak = function(path, params, fn) {
       fn(null, body);
     });
   });
+  req.on('error', fn);
   req.end();
 };
 
