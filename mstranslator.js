@@ -8,6 +8,11 @@ function MsTranslator(credentials, autoRefresh){
   this.expires_in = null;
   this.expires_at = 0;
   this.autoRefresh = autoRefresh;
+  this.ERR_PATTERNS = [
+    'ArgumentException:',
+    'ArgumentOutOfRangeException:',
+    'TranslateApiException:'
+  ];
 
   this.options = {
     host: 'datamarket.accesscontrol.windows.net',
@@ -101,6 +106,7 @@ MsTranslator.prototype.initialize_token = function(callback, noRefresh){
 
 MsTranslator.prototype.call = function(path, params, fn) {
   var settings = this.mstrans;
+  var errPatterns = this.ERR_PATTERNS;
   settings.headers.Authorization = 'Bearer ' + this.access_token;
   params = this.convertArrays(params);
   settings.path= this.ajax_root + path + '?' + querystring.stringify(params);
@@ -114,9 +120,10 @@ MsTranslator.prototype.call = function(path, params, fn) {
       //remove invalid BOM
       body = body.substring(1, body.length);
       try {
-        if (body.indexOf('ArgumentException:') === 1 ||
-          body.indexOf('ArgumentOutOfRangeException:') === 1) {
-
+        var errMessages = errPatterns.filter(function(pattern) {
+          return body.indexOf(pattern) === 1;
+        });
+        if (errMessages.length > 0) {
           fn(new Error(body), JSON.parse(body));
         } else {
           fn(null, JSON.parse(body));
