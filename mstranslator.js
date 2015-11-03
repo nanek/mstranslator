@@ -119,11 +119,11 @@ MsTranslator.prototype.call = function(path, params, fn) {
     res.on('end', function () {
       //remove invalid BOM
       body = body.substring(1, body.length);
-      var data = null;
-      if (body.length > 0) {
-        data = JSON.parse(body);
-      }
       try {
+        var data = null;
+        if (body.length > 0) {
+          data = JSON.parse(body);
+        }
         var errMessages = errPatterns.filter(function(pattern) {
           return body.indexOf(pattern) === 1;
         });
