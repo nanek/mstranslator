@@ -119,14 +119,18 @@ MsTranslator.prototype.call = function(path, params, fn) {
     res.on('end', function () {
       //remove invalid BOM
       body = body.substring(1, body.length);
+      var data = null;
+      if (body.length > 0) {
+        data = JSON.parse(body);
+      }
       try {
         var errMessages = errPatterns.filter(function(pattern) {
           return body.indexOf(pattern) === 1;
         });
         if (errMessages.length > 0) {
-          fn(new Error(body), JSON.parse(body));
+          fn(new Error(body), data);
         } else {
-          fn(null, JSON.parse(body));
+          fn(null, data);
         }
       } catch (e) {
         fn(e, null);
@@ -241,4 +245,10 @@ MsTranslator.prototype.translateArray = function(params, fn) {
 // http://msdn.microsoft.com/en-us/library/dn198370.aspx
 MsTranslator.prototype.translateArray2 = function(params, fn) {
   this.makeRequest('TranslateArray2', params, fn);
+};
+
+// AddTranslation Method
+// params { originalText, translatedText, from, to, user, options }
+MsTranslator.prototype.addTranslation = function(params, fn) {
+  this.makeRequest('AddTranslation', params, fn);
 };
