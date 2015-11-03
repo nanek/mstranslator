@@ -10,7 +10,7 @@
 
   [Microsoft Translator API Reference](http://msdn.microsoft.com/en-us/library/ff512404.aspx)
 
-  * addTranslation (not implemented)
+  * addTranslation
   * addTranslationArray (not implemented)
   * breakSentences (not working)
   * detect

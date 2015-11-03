@@ -9,7 +9,7 @@
   ],
   "name": "mstranslator",
   "description": "Microsoft Translator API module for node.js",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "repository": {
     "type": "git",
     "url": "git://github.com/nanek/mstranslator.git"
@@ -23,7 +23,9 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "mocha": "~2.3.0"
+    "chai": "3.4.0",
+    "mocha": "~2.3.0",
+    "underscore": "1.8.3"
   },
   "licenses": [
     {

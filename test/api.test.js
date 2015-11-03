@@ -1,4 +1,8 @@
 var MsTranslator = require('../mstranslator');
+// http://nodejs.org/api/assert.html
+var assert       = require('assert');
+var expect       = require('chai').expect;
+var _            = require('underscore');
 
 var client_id=process.env.MSCLIENT_ID;
 var client_secret=process.env.MSCLIENT_SECRET;
@@ -11,9 +15,6 @@ if (!client_id || !client_secret) {
 var translator = new MsTranslator({client_id: client_id, client_secret: client_secret}, true);
 
 describe('MsTranslator', function() {
-  // http://nodejs.org/api/assert.html
-  var assert = require('assert');
-
   /*
   it('test breakSentences', function() {
     var text = encodeURIComponent("This is one sentence. The method will count this as the second sentences. Finally, the third sentence.");
@@ -113,6 +114,36 @@ describe('MsTranslator', function() {
       assert.equal(data[1].TranslatedText, 'vaca');
       assert.equal(data[1].Alignment , '0:2-0:3');
       done();
+    });
+  });
+
+  it('tests addTranslation', function(done) {
+    var addParams = {
+      originalText:   'Esto es una prueba',
+      translatedText: 'This is a quiz!',
+      from:           'es',
+      to:             'en',
+      user:           'testuser',
+    };
+
+    var getParams = {
+      text:   'Esto es una prueba',
+      from:           'es',
+      to:             'en',
+      maxTranslations: 200,
+    };
+
+    var params = { text: 'translate this.', from: 'en', to: 'es' };
+    translator.addTranslation(addParams, function(err, data) {
+      assert.equal(err, null);
+
+      // Added translation should now appear in results
+      translator.getTranslations(getParams, function(err, data) {
+        expect(data).to.have.property('Translations');
+        translations = _.pluck(data.Translations, 'TranslatedText');
+        expect(translations).to.contain('This is a quiz!');
+        done();
+      });
     });
   });
 
