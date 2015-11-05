@@ -131,4 +131,18 @@ describe('MsTranslator', function() {
     });
   });
 
+  it('handles an ArgumentNullException', function(done) {
+    var params = {
+      from: 'en',
+      to: 'es'
+    };
+    translator.translate(params, function (err, data) {
+      assert.ok(
+        err.message.indexOf('ArgumentNullException:') !== -1,
+        'An error reports the ArgumentNullException.'
+      );
+      done();
+    });
+  });
+
 });

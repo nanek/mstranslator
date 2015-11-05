@@ -11,7 +11,8 @@ function MsTranslator(credentials, autoRefresh){
   this.ERR_PATTERNS = [
     'ArgumentException:',
     'ArgumentOutOfRangeException:',
-    'TranslateApiException:'
+    'TranslateApiException:',
+    'ArgumentNullException:'
   ];
 
   this.options = {
