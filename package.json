@@ -9,7 +9,7 @@
   ],
   "name": "mstranslator",
   "description": "Microsoft Translator API module for node.js",
-  "version": "2.0.3",
+  "version": "2.0.5",
   "repository": {
     "type": "git",
     "url": "git://github.com/nanek/mstranslator.git"
