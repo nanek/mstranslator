@@ -33,5 +33,8 @@
       "type": "MIT",
       "url": "https://github.com/nanek/mstranslator/blob/master/LICENSE-MIT"
     }
+  ],
+  "files": [
+    "mstranslator.js"
   ]
 }
