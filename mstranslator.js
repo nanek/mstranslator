@@ -2,6 +2,9 @@ var querystring = require('querystring');
 var http = require('http');
 var https = require('https');
 
+/**
+ * @class
+ */
 function MsTranslator(credentials, autoRefresh){
   this.credentials = credentials;
   this.access_token = "";
@@ -175,81 +178,200 @@ MsTranslator.prototype.call_speak = function(path, params, fn) {
   req.end();
 };
 
-// BreakSentences Method
-// params { text, language }
+/**
+ * Breaks a piece of text into sentences and returns an array containing the
+ * lengths in each sentence.
+ * @param {Object} params Parameters
+ * @param {string} params.text The text to split into sentences. The size of
+ *   the text must not exceed 10000 characters.
+ * @param {string} params.language Language code of input text.
+ * @param {callback} fn callback
+ */
 MsTranslator.prototype.breakSentences = function(params, fn) {
   this.makeRequest('BreakSentences', params, fn);
 };
 
-// Detect Method
-// params { text }
+/**
+ * Detects the language of a selection of text.
+ * @param {Object} params Parameters
+ * @param {string} params.text A string representing the text from an unknown
+ *   language. The size of the text must not exceed 10000 characters.
+ * @param {callback} fn callback
+ */
 MsTranslator.prototype.detect = function(params, fn) {
   this.makeRequest('Detect', params, fn);
 };
 
-// DetectArray Method
-// params { texts }
+/**
+ * Detects the language of an array of strings.
+ * @param {Object} params Parameters
+ * @param {string[]} params.texts A string array representing the text from an
+ *   unknown language. The size of the text must not exceed 10000 characters.
+ * @param {callback} fn callback
+ */
 MsTranslator.prototype.detectArray = function(params, fn) {
   this.makeRequest('DetectArray', params, fn);
 };
 
-// GetLanguageNames Method
-// params { locale, languageCodes }
+/**
+ * Obtains a list of the languages supported by the Translator Service.
+ * @param {string} locale A string representing a combination of an ISO 639
+ *   two-letter lowercase culture code associated with a language and an
+ *   ISO 3166 two-letter uppercase subculture code to localize the language
+ *   names or a ISO 639 lowercase culture code by itself.
+ * @param {string[]} languageCodes A string array representing the ISO 639-1
+ *   language codes to retrieve the friendly name for.
+ * @param {callback} fn callback
+ */
 MsTranslator.prototype.getLanguageNames = function(params, fn) {
   this.makeRequest('GetLanguageNames', params, fn);
 };
 
-// GetLanguagesForSpeak Method
-// params { }
+/**
+ * Obtains a list of the language codes supported by the Translator Service for
+ * speech synthesis.
+ * @param {callback} fn callback
+ */
 MsTranslator.prototype.getLanguagesForSpeak = function(fn) {
   this.makeRequest('GetLanguagesForSpeak', {}, fn);
 };
 
-// GetLanguagesForTranslate Method
-// params { }
+/**
+ * Obtains a list of the language codes supported by the Translator Service.
+ * @param {callback} fn callback
+ */
 MsTranslator.prototype.getLanguagesForTranslate = function(fn) {
   this.makeRequest('GetLanguagesForTranslate', {}, fn);
 };
 
-// GetTranslations Method
-// params { text, from, to, maxTranslations, options }
+/**
+ * Retrieves an array of translations for a given language pair from the store
+ * and the MT engine. GetTranslations differs from Translate as it returns all
+ * available translations.
+ * @param {Object} params Parameters
+ * @param {string} params.text The text to translate. The size of the text must
+ *   not exceed 10000 characters.
+ * @param {string} params.from Language code of the translation text.
+ * @param {string} params.to Language code to translate the text into.
+ * @param {int} params.maxTranslations Maximum number of translations to return.
+ * @param {Object} [params.options] Options
+ * @param {callback} fn callback
+ */
 MsTranslator.prototype.getTranslations = function(params, fn) {
   this.makeRequest('GetTranslations', params, fn);
 };
 
-// GetTranslationsArray Method
-// params { text, from, to, maxTranslations, options }
+/**
+ * Returns an array of alternative translations of the passed array of text.
+ * @param {Object} params Parameters
+ * @param {string[]} params.texts The texts for translation. All strings must be
+ *   of the same language. The total of all texts to be translated must not
+ *   exceed 10000 characters. The maximum number of array elements is 10.
+ * @param {string} params.from Language code of the translation text.
+ * @param {string} params.to Language code to translate the text into.
+ * @param {int} params.maxTranslations Maximum number of translations to return.
+ * @param {Object} [params.options] Options
+ * @param {callback} fn callback
+ */
 MsTranslator.prototype.getTranslationsArray = function(params, fn) {
   this.makeRequest('GetTranslationsArray', params, fn);
 };
 
-// Speak Method
-// params { text, language, format }
+/**
+ * Returns a string which is a URL to a wave or mp3 stream of the passed-in text
+ * being spoken in the desired language.
+ * @param {Object} params Parameters
+ * @param {string} params.text A sentence or sentences of the specified language
+ *   to be spoken for the wave stream. The size of the text to speak must not
+ *   exceed 2000 characters.
+ * @param {string} params.language Language code to speak the text in
+ * @param {string} [params.format=audio/wav] Content-type 'audio/wav' or
+ *   'audio/mp3'
+ * @param {Object} [params.options] Options
+ * @param {callback} fn callback
+ */
 MsTranslator.prototype.speak = function(params, fn) {
   this.makeRequest('Speak', params, fn, 'call_speak');
 };
 
-// Translate Method
-// params { text, from, to, contentType, category }
+/**
+ * Converts a text string from one language to another.
+ * @param {Object} params Parameters
+ * @param {string} params.text The text to translate. The size of the text must
+ *  not exceed 10000 characters.
+ * @param {string} [params.from] Language code of the translation text.
+ * @param {string} params.to Language code to translate the text into.
+ * @param {string} [params.contentType] The format of the text being translated.
+ *   The supported formats are 'text/plain' and 'text/html'. Any HTML needs to
+ *   be well-formed.
+ * @param {string} [params.category=general] The category of the translation
+ * @param {callback} fn callback
+ */
 MsTranslator.prototype.translate = function(params, fn) {
   this.makeRequest('Translate', params, fn);
 };
 
-// TranslateArray Method
-// params { texts, from, to, options }
+/**
+ * Translates an array of texts into another language.
+ * @param {Object} params Parameters
+ * @param {string[]} params.texts The texts for translation. All strings must be
+ *   of the same language. The total of all texts to be translated must not
+ *   exceed 10000 characters. The maximum number of array elements is 2000.
+ * @param {string} [params.from] Language code of the translation text
+ * @param {string} params.to Language code to translate the text to
+ * @param {Object} [params.options] Options
+ * @param {callback} fn callback
+ */
 MsTranslator.prototype.translateArray = function(params, fn) {
   this.makeRequest('TranslateArray', params, fn);
 };
 
-// TranslateArray2 Method
-// params { texts, from, to, options }
-// http://msdn.microsoft.com/en-us/library/dn198370.aspx
+/**
+ * Works just like regular TranslateArray(), except it has an additional element
+ * in the response structure, called "Alignment".
+ * http://msdn.microsoft.com/en-us/library/dn198370.aspx
+ * @param {Object} params Parameters
+ * @param {string[]} params.texts The texts for translation. All strings must be
+ *   of the same language. The total of all texts to be translated must not
+ *   exceed 10000 characters. The maximum number of array elements is 2000.
+ * @param {string} [params.from] Language code of the translation text
+ * @param {string} params.to Language code to translate the text to
+ * @param {Object} [params.options] Options
+ * @param {callback} fn callback
+ */
 MsTranslator.prototype.translateArray2 = function(params, fn) {
   this.makeRequest('TranslateArray2', params, fn);
 };
 
-// AddTranslation Method
-// params { originalText, translatedText, from, to, user, options }
+/**
+ * Adds a translation to the translation memory.
+ * @param {Object} params Parameters
+ * @param {string} params.originalText The text to translate from. The string
+ *   has a maximum length of 1000 characters.
+ * @param {string} params.translatedText Translated text in the target language.
+ *   The string has a maximum length of 2000 characters.
+ * @param {string} params.from Language code of the source language. Must be a
+ *   valid culture name.
+ * @param {string} params.to Language code of the target language. Must be a
+ *   valid culture name.
+ * @param {string} params.user A string used to track the originator of the
+ *   submission.
+ * @param {int} [params.rating=1] The quality rating for this string. Value
+ *   between -10 and 10.
+ * @param {string} [params.contentType] The format of the text being translated.
+ *   The supported formats are 'text/plain' and 'text/html'. Any HTML needs to
+ *   be well-formed.
+ * @param {string} [params.category=general] The category (domain) of the
+ *   translation.
+ * @param {string} [params.uri] The content location of this translation.
+ * @param {callback} fn callback
+ */
 MsTranslator.prototype.addTranslation = function(params, fn) {
   this.makeRequest('AddTranslation', params, fn);
 };
+
+/**
+ * @callback callback
+ * @param {Object} error
+ * @param {Object} data
+ */

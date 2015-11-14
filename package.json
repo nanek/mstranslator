@@ -16,6 +16,7 @@
   },
   "main": "mstranslator.js",
   "scripts": {
+    "doc": "documentation mstranslator.js -f md > API.md",
     "test": "mocha test/api.test.js"
   },
   "engines": {
