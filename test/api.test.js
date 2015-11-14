@@ -1,5 +1,4 @@
 var MsTranslator = require('../mstranslator');
-// http://nodejs.org/api/assert.html
 var assert       = require('assert');
 var expect       = require('chai').expect;
 var _            = require('underscore');
