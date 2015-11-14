@@ -4,6 +4,10 @@ var https = require('https');
 
 /**
  * @class
+ * @param {Object} credentials Credentials
+ * @param {string} credentials.client_id Client id
+ * @param {string} credentials.client_secret Client secret
+ * @param {boolean} [autoRefresh] Auto refresh
  */
 function MsTranslator(credentials, autoRefresh){
   this.credentials = credentials;
