@@ -74,6 +74,14 @@ describe('MsTranslator', function() {
     });
   });
 
+  it('tests speakURL', function(done) {
+    var params = { text: 'Muchas gracias.', language: 'es', format: 'audio/wav' };
+    translator.speakURL(params, function(err, data) {
+      assert.equal(typeof data, 'string');
+      done();
+    });
+  });
+
   it('tests translate', function(done) {
     var params = { text: 'translate this.', from: 'en', to: 'es' };
     translator.translate(params, function(err, data) {

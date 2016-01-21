@@ -282,7 +282,7 @@ MsTranslator.prototype.getTranslationsArray = function(params, fn) {
 };
 
 /**
- * Returns a string which is a URL to a wave or mp3 stream of the passed-in text
+ * Returns a wave or mp3 stream of the passed-in text
  * being spoken in the desired language.
  * @param {Object} params Parameters
  * @param {string} params.text A sentence or sentences of the specified language
@@ -296,6 +296,23 @@ MsTranslator.prototype.getTranslationsArray = function(params, fn) {
  */
 MsTranslator.prototype.speak = function(params, fn) {
   this.makeRequest('Speak', params, fn, 'call_speak');
+};
+
+/**
+ * Returns a string which is a URL to a wave or mp3 stream of the passed-in text
+ * being spoken in the desired language.
+ * @param {Object} params Parameters
+ * @param {string} params.text A sentence or sentences of the specified language
+ *   to be spoken for the wave stream. The size of the text to speak must not
+ *   exceed 2000 characters.
+ * @param {string} params.language Language code to speak the text in
+ * @param {string} [params.format=audio/wav] Content-type 'audio/wav' or
+ *   'audio/mp3'
+ * @param {Object} [params.options] Options
+ * @param {callback} fn callback
+ */
+MsTranslator.prototype.speakURL = function(params, fn) {
+  this.makeRequest('Speak', params, fn);
 };
 
 /**
