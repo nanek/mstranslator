@@ -100,11 +100,13 @@ MsTranslator.prototype.initialize_token = function(callback, noRefresh){
         setTimeout(function() {self.initialize_token();}, self.expires_in);
       }
       if(callback !== undefined) {
-        callback(null,keys);
+        callback(null, keys);
       }
     });
   });
-  req.on('error', callback);
+  if (callback) {
+    req.on('error', callback);
+  }
 
   this.query.client_id = self.credentials.client_id;
   this.query.client_secret = self.credentials.client_secret;
@@ -133,7 +135,7 @@ MsTranslator.prototype.call = function(path, params, fn) {
           data = JSON.parse(body);
         }
         var errMessages = errPatterns.filter(function(pattern) {
-          return body.indexOf(pattern) === 1;
+          return body.indexOf(pattern) > -1;
         });
         if (errMessages.length > 0) {
           fn(new Error(body), data);
