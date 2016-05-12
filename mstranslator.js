@@ -176,7 +176,6 @@ MsTranslator.prototype.call_speak = function(path, params, fn) {
         buf.copy(body, index, 0, buf.length);
         index += buf.length;
       });
-      delete(buffers);
       fn(null, body);
     });
   });
