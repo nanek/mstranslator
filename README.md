@@ -34,15 +34,25 @@
 You will also need to register to get an client_id and client_secret to
 create access tokens. Details at http://msdn.microsoft.com/en-us/library/hh454950.aspx
 
+Or if you've already migrated to portal.azure.com: Your api key is needed to create a token.
+Details at https://translatorbusiness.uservoice.com/knowledgebase/articles/1078534-microsoft-translator-on-azure
+
 ## Example Usage - Auto-generated token
 
 ```js
 var MsTranslator = require('mstranslator');
 // Second parameter to constructor (true) indicates that
 // the token should be auto-generated.
+
+// old token API
 var client = new MsTranslator({
-  client_id: "your client_id"
-  , client_secret: "your client secret"
+  client_id: "your client_id" // use this for the old token API
+  , client_secret: "your client secret" // use this for the old token API
+}, true);
+
+// new token API
+var client = new MsTranslator({
+  api_key: "your portal.azure.com api key" // use this for the new token API. 
 }, true);
 
 var params = {
