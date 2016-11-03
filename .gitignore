@@ -1,2 +1,7 @@
 env.sh
 node_modules/
+npm-debug.log
+.env
+.DS_Store
+.idea/
+*.iml

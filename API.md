@@ -2,9 +2,12 @@
 
 **Parameters**
 
+If using api_key, the others are ignored and the old toke api is used.
+
 -   `credentials` **Object** Credentials
-    -   `credentials.client_id` **string** Client id
-    -   `credentials.client_secret` **string** Client secret
+    -   `credentials.client_id` **string** Client id (for the old Token API)
+    -   `credentials.client_secret` **string** Client secret (for the old Token API)
+    -   `credential.api_key` **string** Key secret (for the new Token API from azure marketplace)
 -   `autoRefresh` **[boolean]** Auto refresh
 
 ## addTranslation
