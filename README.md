@@ -76,6 +76,10 @@ var client = new MsTranslator({
   , client_secret: "your client secret"
 });
 
+var client = new MsTranslator({
+  api_key: "your portal.azure.com api key" // use this for the new token API. 
+}, true);
+
 var params = {
   text: 'How\'s it going?'
   , from: 'en'
