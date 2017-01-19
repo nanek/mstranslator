@@ -114,8 +114,16 @@ MsTranslator.prototype.initialize_token = function(callback, noRefresh){
       data += chunk;
     });
     res.on('end', function () {
+      var keys;
       if (!self.useNewApi) {
-        var keys = JSON.parse(data);
+        try {
+          keys = JSON.parse(data);
+        } catch (e) {
+          if(callback !== undefined) {
+            callback(e);
+          }
+          return;
+        }
         self.access_token = keys.access_token;
         self.expires_in = (parseInt(keys.expires_in) - 10) * 1000;
         self.expires_at = Date.now() + self.expires_in;
