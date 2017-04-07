@@ -114,12 +114,20 @@ MsTranslator.prototype.initialize_token = function(callback, noRefresh){
       data += chunk;
     });
     res.on('end', function () {
+      if (res.statusCode !== 200) {
+        if (callback !== undefined) {
+          callback(new Error('Received: ' + data +
+            ' when trying to retrieve a new access token. Status code: ' +
+            res.statusCode));
+        }
+        return;
+      }
       var keys;
       if (!self.useNewApi) {
         try {
           keys = JSON.parse(data);
         } catch (e) {
-          if(callback !== undefined) {
+          if (callback !== undefined) {
             callback(e);
           }
           return;
@@ -136,7 +144,7 @@ MsTranslator.prototype.initialize_token = function(callback, noRefresh){
       if (!noRefresh) {
         setTimeout(function() {self.initialize_token();}, self.expires_in);
       }
-      if(callback !== undefined) {
+      if (callback !== undefined) {
         callback(null, keys);
       }
     });
