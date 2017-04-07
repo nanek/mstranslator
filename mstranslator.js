@@ -174,6 +174,11 @@ MsTranslator.prototype.call = function(path, params, fn) {
           return body.indexOf(pattern) > -1;
         });
         if (errMessages.length > 0) {
+          // Expires the access token if the error contains the word 'token'.
+          // This could happen if the token somehow expired or is not valid.
+          if (body.indexOf('token') > -1) {
+            self.expires_at = Date.now();
+          }
           fn(new Error(body), data);
         } else {
           fn(null, data);
