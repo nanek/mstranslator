@@ -114,12 +114,20 @@ MsTranslator.prototype.initialize_token = function(callback, noRefresh){
       data += chunk;
     });
     res.on('end', function () {
+      if (res.statusCode !== 200) {
+        if (callback !== undefined) {
+          callback(new Error('Received: ' + data +
+            ' when trying to retrieve a new access token. Status code: ' +
+            res.statusCode));
+        }
+        return;
+      }
       var keys;
       if (!self.useNewApi) {
         try {
           keys = JSON.parse(data);
         } catch (e) {
-          if(callback !== undefined) {
+          if (callback !== undefined) {
             callback(e);
           }
           return;
@@ -136,7 +144,7 @@ MsTranslator.prototype.initialize_token = function(callback, noRefresh){
       if (!noRefresh) {
         setTimeout(function() {self.initialize_token();}, self.expires_in);
       }
-      if(callback !== undefined) {
+      if (callback !== undefined) {
         callback(null, keys);
       }
     });
@@ -150,11 +158,12 @@ MsTranslator.prototype.initialize_token = function(callback, noRefresh){
 };
 
 MsTranslator.prototype.call = function(path, params, fn) {
-  var settings = this.mstrans;
-  var errPatterns = this.ERR_PATTERNS;
-  settings.headers.Authorization = 'Bearer ' + this.access_token;
-  params = this.convertArrays(params);
-  settings.path= this.ajax_root + path + '?' + querystring.stringify(params);
+  var self = this;
+  var settings = self.mstrans;
+  var errPatterns = self.ERR_PATTERNS;
+  settings.headers.Authorization = 'Bearer ' + self.access_token;
+  params = self.convertArrays(params);
+  settings.path= self.ajax_root + path + '?' + querystring.stringify(params);
   var req = http.request(settings, function(res) {
     res.setEncoding('utf8');
     var body = '';
@@ -173,6 +182,11 @@ MsTranslator.prototype.call = function(path, params, fn) {
           return body.indexOf(pattern) > -1;
         });
         if (errMessages.length > 0) {
+          // Expires the access token if the error contains the word 'token'.
+          // This could happen if the token somehow expired or is not valid.
+          if (body.indexOf('token') > -1) {
+            self.expires_at = Date.now();
+          }
           fn(new Error(body), data);
         } else {
           fn(null, data);

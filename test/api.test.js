@@ -185,4 +185,26 @@ describe('MsTranslator', function () {
     });
   });
 
+  it('expires current token if token is bad', function (done) {
+    var params = {
+      text: 'Esto es una prueba',
+      from: 'en',
+      to: 'es'
+    };
+    translator.access_token = 'bad-token';
+    var expirationInOneMinute = Date.now() + 60000;
+    translator.expires_at = expirationInOneMinute;
+    translator.translate(params, function (err, data) {
+      assert.ok(
+        err.message.indexOf('token') !== -1,
+        'The error contains the word token'
+      );
+      assert.ok(
+        translator.expires_at < expirationInOneMinute,
+        'The access_token expiration was set to now'
+      );
+      done();
+    });
+  });
+
 });
