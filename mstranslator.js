@@ -150,11 +150,12 @@ MsTranslator.prototype.initialize_token = function(callback, noRefresh){
 };
 
 MsTranslator.prototype.call = function(path, params, fn) {
-  var settings = this.mstrans;
-  var errPatterns = this.ERR_PATTERNS;
-  settings.headers.Authorization = 'Bearer ' + this.access_token;
-  params = this.convertArrays(params);
-  settings.path= this.ajax_root + path + '?' + querystring.stringify(params);
+  var self = this;
+  var settings = self.mstrans;
+  var errPatterns = self.ERR_PATTERNS;
+  settings.headers.Authorization = 'Bearer ' + self.access_token;
+  params = self.convertArrays(params);
+  settings.path= self.ajax_root + path + '?' + querystring.stringify(params);
   var req = http.request(settings, function(res) {
     res.setEncoding('utf8');
     var body = '';
