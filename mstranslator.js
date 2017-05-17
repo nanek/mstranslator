@@ -145,6 +145,7 @@ MsTranslator.prototype.initialize_token = function(callback, noRefresh){
         setTimeout(function() {self.initialize_token();}, self.expires_in);
       }
       if (callback !== undefined) {
+        keys = data;
         callback(null, keys);
       }
     });
