@@ -88,7 +88,7 @@ var params = {
 
 // Using initialize_token manually.
 client.initialize_token(function(keys){
-  console.log(keys.access_token);
+  console.log(keys);
   client.translate(params, function(err, data) {
     console.log(data);
   });
