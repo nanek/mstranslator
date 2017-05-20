@@ -236,6 +236,7 @@ MsTranslator.prototype.detectArray = function(params, fn) {
 
 /**
  * Obtains a list of the languages supported by the Translator Service.
+ * @param {Object} params Parameters
  * @param {string} locale A string representing a combination of an ISO 639
  *   two-letter lowercase culture code associated with a language and an
  *   ISO 3166 two-letter uppercase subculture code to localize the language

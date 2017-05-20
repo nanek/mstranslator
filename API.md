@@ -68,7 +68,7 @@ Obtains a list of the languages supported by the Translator Service.
 
 **Parameters**
 
--   `params`  
+-   `params` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Parameters
 -   `fn` **[callback](#callback)** callback
 -   `locale` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** A string representing a combination of an ISO 639
       two-letter lowercase culture code associated with a language and an
