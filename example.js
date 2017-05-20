@@ -1,10 +1,9 @@
 var MsTranslator = require('./mstranslator');
 
-var client_secret=process.env.MSCLIENT_SECRET;
-var client_id=process.env.MSCLIENT_ID;
+var api_key = process.env.API_KEY;
 
-if (!client_secret || !client_id) {
-  console.log('client_secret and client_id missing');
+if (!api_key) {
+  console.log('missing api_key');
   process.exit(1);
 }
 
@@ -14,10 +13,7 @@ var params = {
   to: 'es'
 };
 
-var client = new MsTranslator({
-  client_id: client_id,
-  client_secret: client_secret
-});
+var client = new MsTranslator({api_key: api_key});
 
 client.initialize_token(function(){
   client.translate(params, function(err, data) {

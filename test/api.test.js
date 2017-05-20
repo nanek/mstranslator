@@ -7,6 +7,7 @@ var api_key = process.env.API_KEY;
 
 if (!api_key) {
   console.log('missing api_key');
+  process.exit(1);
 }
 
 var translator = new MsTranslator({api_key: api_key}, true);
