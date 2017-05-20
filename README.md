@@ -31,8 +31,9 @@
 
     $ npm install mstranslator
 
-Your api key from portal.azure.com is needed to create a token.
-Details at https://translatorbusiness.uservoice.com/knowledgebase/articles/1078534-microsoft-translator-on-azure
+An API key from portal.azure.com is needed to create a token as of April 30, 2017.
+See [Microsoft Translator API Documentation](http://www.aka.ms/TranslatorDevDocumentation)
+[Details on previous API and migration info](https://translatorbusiness.uservoice.com/knowledgebase/articles/1078534-microsoft-translator-on-azure)
 
 ## Example Usage - Auto-generated token
 
