@@ -3,16 +3,13 @@ var assert = require('assert');
 var expect = require('chai').expect;
 var _ = require('underscore');
 
-var client_id = process.env.MSCLIENT_ID;
-var client_secret = process.env.MSCLIENT_SECRET;
 var api_key = process.env.API_KEY;
 
-if (!client_id || !client_secret) {
-  console.log('missing client_id and client_secret');
-  process.exit(1);
+if (!api_key) {
+  console.log('missing api_key');
 }
 
-var translator = new MsTranslator({client_id: client_id, client_secret: client_secret, api_key: api_key}, true);
+var translator = new MsTranslator({api_key: api_key}, true);
 
 describe('MsTranslator', function () {
   /*
