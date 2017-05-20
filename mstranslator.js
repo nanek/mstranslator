@@ -136,6 +136,7 @@ MsTranslator.prototype.initialize_token = function(callback, noRefresh){
         self.expires_in = (parseInt(keys.expires_in) - 10) * 1000;
         self.expires_at = Date.now() + self.expires_in;
       } else {
+        keys = data;
         self.access_token = data;
         self.expires_in = 9 * 60 * 1000; // token is valid for 10 min. So set time before it is expiring
         self.expires_at = Date.now() + self.expires_in;
