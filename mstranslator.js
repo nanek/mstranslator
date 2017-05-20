@@ -5,8 +5,7 @@ var https = require('https');
 /**
  * @class
  * @param {Object} credentials Credentials
- * @param {string} credentials.client_id Client id
- * @param {string} credentials.client_secret Client secret
+ * @param {string} credentials.api_key API key
  * @param {boolean} [autoRefresh] Auto refresh
  */
 function MsTranslator(credentials, autoRefresh){
@@ -15,8 +14,6 @@ function MsTranslator(credentials, autoRefresh){
   this.expires_in = null;
   this.expires_at = 0;
   this.autoRefresh = autoRefresh;
-  this.useNewApi = Boolean(credentials.api_key);
-  this.apiToUse = true === this.useNewApi ? 'newApi' : 'oldApi';
   this.ERR_PATTERNS = [
     'ArgumentException:',
     'ArgumentOutOfRangeException:',
@@ -24,28 +21,19 @@ function MsTranslator(credentials, autoRefresh){
     'ArgumentNullException:'
   ];
 
-  // there is the old and the new API to receive a token from
   this.options = {
-    oldApi: {
-      host: 'datamarket.accesscontrol.windows.net',
-      path: '/v2/OAuth2-13',
-      method: 'POST'
-    },
-    newApi: {
-      host: 'api.cognitive.microsoft.com',
-      path: '/sts/v1.0/issueToken',
-      method: 'POST',
-      headers: {
-        'Ocp-Apim-Subscription-Key': this.credentials.api_key
-      }
+    host: 'api.cognitive.microsoft.com',
+    path: '/sts/v1.0/issueToken',
+    method: 'POST',
+    headers: {
+      'Ocp-Apim-Subscription-Key': this.credentials.api_key
     }
   };
 
-  // Did not change from old to new
   this.mstrans = {
-      host: 'api.microsofttranslator.com',
-      method: 'GET',
-      headers: {}
+    host: 'api.microsofttranslator.com',
+    method: 'GET',
+    headers: {}
   };
 
   // use the ajax endpoint so that the responses are JSON
@@ -54,14 +42,6 @@ function MsTranslator(credentials, autoRefresh){
 
   // newApi's token are fetched via headers
   this.query = {
-    oldApi: {
-      grant_type: 'client_credentials',
-      scope: 'http://api.microsofttranslator.com',
-      client_id: this.credentials.client_id,
-      client_secret: this.credentials.client_secret
-    },
-    newApi: {
-    }
   };
 
 }
@@ -107,7 +87,7 @@ MsTranslator.prototype.makeRequest = function(path, params, fn, method) {
 
 MsTranslator.prototype.initialize_token = function(callback, noRefresh){
   var self = this;
-  var req = https.request(self.options[self.apiToUse], function(res) {
+  var req = https.request(self.options, function(res) {
     res.setEncoding('utf8');
     var data = '';
     res.on('data', function (chunk) {
@@ -122,25 +102,11 @@ MsTranslator.prototype.initialize_token = function(callback, noRefresh){
         }
         return;
       }
-      var keys;
-      if (!self.useNewApi) {
-        try {
-          keys = JSON.parse(data);
-        } catch (e) {
-          if (callback !== undefined) {
-            callback(e);
-          }
-          return;
-        }
-        self.access_token = keys.access_token;
-        self.expires_in = (parseInt(keys.expires_in) - 10) * 1000;
-        self.expires_at = Date.now() + self.expires_in;
-      } else {
-        keys = data;
-        self.access_token = data;
-        self.expires_in = 9 * 60 * 1000; // token is valid for 10 min. So set time before it is expiring
-        self.expires_at = Date.now() + self.expires_in;
-      }
+      var keys = data;
+      self.access_token = data;
+      // token is valid for 10 min. So set time before it is expiring.
+      self.expires_in = 9 * 60 * 1000;
+      self.expires_at = Date.now() + self.expires_in;
 
       if (!noRefresh) {
         setTimeout(function() {self.initialize_token();}, self.expires_in);
@@ -154,7 +120,7 @@ MsTranslator.prototype.initialize_token = function(callback, noRefresh){
     req.on('error', callback);
   }
 
-  req.write(querystring.stringify(this.query[this.apiToUse]));
+  req.write(querystring.stringify(this.query));
   req.end();
 };
 
