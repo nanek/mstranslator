@@ -8,9 +8,9 @@ var https = require('https');
  * @param {string} credentials.api_key API key
  * @param {boolean} [autoRefresh] Auto refresh
  */
-function MsTranslator(credentials, autoRefresh){
+function MsTranslator(credentials, autoRefresh) {
   this.credentials = credentials;
-  this.access_token = "";
+  this.access_token = '';
   this.expires_in = null;
   this.expires_at = 0;
   this.autoRefresh = autoRefresh;
@@ -41,15 +41,13 @@ function MsTranslator(credentials, autoRefresh){
   this.http_root = '/V2/Http.svc/';
 
   // newApi's token are fetched via headers
-  this.query = {
-  };
-
+  this.query = {};
 }
 
 module.exports = MsTranslator;
 
-function escapeDoubleQuotes (element) {
-  if(typeof element !== 'string' ) {
+function escapeDoubleQuotes(element) {
+  if (typeof element !== 'string') {
     return element;
   }
 
@@ -57,9 +55,7 @@ function escapeDoubleQuotes (element) {
 }
 
 MsTranslator.prototype.printArray = function(arr) {
-  var arrval = arr
-      .map(escapeDoubleQuotes)
-      .join('","');
+  var arrval = arr.map(escapeDoubleQuotes).join('","');
   return '["' + arrval + '"]';
 };
 
@@ -79,26 +75,30 @@ MsTranslator.prototype.makeRequest = function(path, params, fn, method) {
     this.initialize_token(function() {
       self[method](path, params, fn);
     }, true);
-  }
-  else {
+  } else {
     this[method](path, params, fn);
   }
 };
 
-MsTranslator.prototype.initialize_token = function(callback, noRefresh){
+MsTranslator.prototype.initialize_token = function(callback, noRefresh) {
   var self = this;
   var req = https.request(self.options, function(res) {
     res.setEncoding('utf8');
     var data = '';
-    res.on('data', function (chunk) {
+    res.on('data', function(chunk) {
       data += chunk;
     });
-    res.on('end', function () {
+    res.on('end', function() {
       if (res.statusCode !== 200) {
         if (callback !== undefined) {
-          callback(new Error('Received: ' + data +
-            ' when trying to retrieve a new access token. Status code: ' +
-            res.statusCode));
+          callback(
+            new Error(
+              'Received: ' +
+                data +
+                ' when trying to retrieve a new access token. Status code: ' +
+                res.statusCode
+            )
+          );
         }
         return;
       }
@@ -109,7 +109,9 @@ MsTranslator.prototype.initialize_token = function(callback, noRefresh){
       self.expires_at = Date.now() + self.expires_in;
 
       if (!noRefresh) {
-        setTimeout(function() {self.initialize_token();}, self.expires_in);
+        setTimeout(function() {
+          self.initialize_token();
+        }, self.expires_in);
       }
       if (callback !== undefined) {
         callback(null, keys);
@@ -130,14 +132,14 @@ MsTranslator.prototype.call = function(path, params, fn) {
   var errPatterns = self.ERR_PATTERNS;
   settings.headers.Authorization = 'Bearer ' + self.access_token;
   params = self.convertArrays(params);
-  settings.path= self.ajax_root + path + '?' + querystring.stringify(params);
+  settings.path = self.ajax_root + path + '?' + querystring.stringify(params);
   var req = http.request(settings, function(res) {
     res.setEncoding('utf8');
     var body = '';
-    res.on('data', function (chunk) {
+    res.on('data', function(chunk) {
       body += chunk;
     });
-    res.on('end', function () {
+    res.on('end', function() {
       //remove invalid BOM
       body = body.substring(1, body.length);
       try {
@@ -171,24 +173,24 @@ MsTranslator.prototype.call_speak = function(path, params, fn) {
   var settings = this.mstrans;
   settings.headers.Authorization = 'Bearer ' + this.access_token;
   params = this.convertArrays(params);
-  settings.path= this.http_root + path + '?' + querystring.stringify(params);
+  settings.path = this.http_root + path + '?' + querystring.stringify(params);
   var req = http.request(settings, function(res) {
     var buffers = [];
 
-    res.on('data', function (chunk) {
-      if(!Buffer.isBuffer(chunk)){
+    res.on('data', function(chunk) {
+      if (!Buffer.isBuffer(chunk)) {
         chunk = new Buffer(chunk);
       }
       buffers.push(chunk);
     });
 
-    res.on('end', function () {
+    res.on('end', function() {
       var index = 0;
       var buffer_length = buffers.reduce(function(sum, e) {
-        return sum += e.length;
+        return (sum += e.length);
       }, 0);
       var body = new Buffer(buffer_length);
-      buffers.forEach(function (buf, i) {
+      buffers.forEach(function(buf) {
         buf.copy(body, index, 0, buf.length);
         index += buf.length;
       });
