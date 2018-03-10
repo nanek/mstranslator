@@ -1,6 +1,6 @@
 # Microsoft Translator API module for node.js
 
-  [Microsoft Translator Documentation](http://msdn.microsoft.com/en-us/library/dd576287.aspx)
+  [Microsoft Translator Documentation](http://docs.microsofttranslator.com/text-translate.html)
 
 [![devDependency Status](https://david-dm.org/nanek/mstranslator/dev-status.svg)](https://david-dm.org/nanek/mstranslator#info=devDependencies)
 
@@ -32,7 +32,7 @@
     $ npm install mstranslator
 
 An API key from portal.azure.com is needed to create a token as of April 30, 2017.
-See [Microsoft Translator API Documentation](http://www.aka.ms/TranslatorDevDocumentation). For details on previous authentication API and
+See [Microsoft Translator API Documentation](http://docs.microsofttranslator.com/text-translate.html). For details on previous authentication API and
 [migration info](https://translatorbusiness.uservoice.com/knowledgebase/articles/1078534-microsoft-translator-on-azure)
 
 ## Example Usage - Auto-generated token
@@ -47,9 +47,9 @@ var client = new MsTranslator({
 }, true);
 
 var params = {
-  text: 'How\'s it going?'
-  , from: 'en'
-  , to: 'es'
+  text: 'How\'s it going?',
+  from: 'en',
+  to: 'es'
 };
 
 // Don't worry about access token, it will be auto-generated if needed.
@@ -68,13 +68,13 @@ var client = new MsTranslator({
 }, true);
 
 var params = {
-  text: 'How\'s it going?'
-  , from: 'en'
-  , to: 'es'
+  text: 'How\'s it going?',
+  from: 'en',
+  to: 'es'
 };
 
 // Using initialize_token manually.
-client.initialize_token(function(err, keys){
+client.initialize_token(function(err, keys) {
   console.log(keys);
   client.translate(params, function(err, data) {
     console.log(data);
