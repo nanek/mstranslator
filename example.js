@@ -15,7 +15,11 @@ var params = {
 
 var client = new MsTranslator({api_key: api_key});
 
-client.initialize_token(function(){
+client.initialize_token(function(err){
+  if (err) {
+    console.log("initialize_token", err);
+    return;
+  }
   client.translate(params, function(err, data) {
     if (err) console.log('error:' + err.message);
     console.log(data);
