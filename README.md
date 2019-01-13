@@ -1,10 +1,9 @@
 # Microsoft Translator API module for node.js
 
-  [Microsoft Translator Documentation](http://docs.microsofttranslator.com/text-translate.html)
+NOTE: This module currently only supports V2 of the API which will be discontinued on April 30, 2019.
+https://docs.microsoft.com/en-us/azure/cognitive-services/translator/migrate-to-v3
 
-[![devDependency Status](https://david-dm.org/nanek/mstranslator/dev-status.svg)](https://david-dm.org/nanek/mstranslator#info=devDependencies)
-
-[SOAP version that supports translating longer strings](https://github.com/tommedema/node-mstranslate-soap)
+See https://github.com/MicrosoftTranslator/Text-Translation-API-V3-NodeJS for examples of working with v3.
 
 ## Methods
 
