@@ -1,4 +1,5 @@
-# Microsoft Translator API module for node.js
+# DEPRECATED
+Microsoft Translator API module for node.js
 
 NOTE: This module currently only supports V2 of the API which will be discontinued on April 30, 2019.
 https://docs.microsoft.com/en-us/azure/cognitive-services/translator/migrate-to-v3
